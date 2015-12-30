@@ -69,6 +69,7 @@
     <Compile Include="CardTests.cs" />
     <Compile Include="CardValue.cs" />
     <Compile Include="Hand.cs" />
+    <Compile Include="HandScorer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
