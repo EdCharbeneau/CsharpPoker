@@ -43,6 +43,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="CardSuit.cs" />
     <Compile Include="CardValue.cs" />
+    <Compile Include="FunctionalExtensions.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="HandScorer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

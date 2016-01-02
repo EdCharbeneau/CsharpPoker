@@ -22,12 +22,18 @@ namespace CsharpPoker
 
         private readonly Hand hand;
 
+        private readonly ConcurrentDictionary<CardValue, int> pairs;
+
         public HandScorer(Hand hand)
         {
             this.hand = hand;
+            this.pairs = hand.Cards.Map(cards => CreatePairs(cards));
             HighCardValue = GetHighCard();
             Score = GetHandScore();
         }
+
+        public CardValue HighCardValue { get; private set; }
+        public HandScore Score { get; private set; }
 
         private HandScore GetHandScore()
         {
@@ -39,43 +45,17 @@ namespace CsharpPoker
                    HandScore.HighCard;
         }
 
-        private bool HasPair()
-        {
-            var dict = new ConcurrentDictionary<CardValue, int>();
-            hand.Cards.ForEach(
-                card => dict.AddOrUpdate(card.Value, 1,
-                    (k, v) => v + 1
-                ));
-            return dict.Count(item => item.Value == 2) == 1;
-        }
-        private bool HasTwoPair()
-        {
-            var dict = new ConcurrentDictionary<CardValue, int>();
-            hand.Cards.ForEach(
-                card => dict.AddOrUpdate(card.Value, 1,
-                    (k, v) => v + 1
-                ));
-            return dict.Count(item => item.Value == 2) == 2;
-        }
-        private bool HasThreeOfAKind()
-        {
-            var dict = new ConcurrentDictionary<CardValue, int>();
-            hand.Cards.ForEach(
-                card => dict.AddOrUpdate(card.Value, 1,
-                    (k, v) => v + 1
-                ));
-            return dict.Count(item => item.Value == 3) == 1;
-        }
+        private bool HasOfAKind(int numberOfAKind) => 
+                this.pairs
+                .Count(item => item.Value == numberOfAKind) == 1;
 
-        private bool HasFourOfAKind()
-        {
-            var dict = new ConcurrentDictionary<CardValue, int>();
-            hand.Cards.ForEach(
-                card => dict.AddOrUpdate(card.Value, 1,
-                    (k, v) => v + 1
-                ));
-            return dict.Count(item => item.Value == 4) == 1;
-        }
+        private bool HasPair() => HasOfAKind(2);
+
+        private bool HasTwoPair() => pairs.Count(item => item.Value == 2) == 2;
+        
+        private bool HasThreeOfAKind() => HasOfAKind(3);
+
+        private bool HasFourOfAKind() => HasOfAKind(4);
 
         private bool HasStraight() {
 
@@ -94,7 +74,15 @@ namespace CsharpPoker
                 .Value;
         }
 
-        public CardValue HighCardValue { get; private set; }
-        public HandScore Score { get; private set; }
+
+        private ConcurrentDictionary<CardValue, int> CreatePairs(List<Card> cards)
+        {
+            var dict = new ConcurrentDictionary<CardValue, int>();
+            cards.ForEach(
+                card => dict.AddOrUpdate(card.Value, 1,
+                    (k, v) => v + 1
+                ));
+            return dict;
+        }
     }
 }
