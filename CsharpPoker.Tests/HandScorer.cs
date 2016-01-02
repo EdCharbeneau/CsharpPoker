@@ -31,7 +31,9 @@ namespace CsharpPoker.Tests
 
         private HandScore GetHandScore()
         {
-            return HasThreeOfAKind() ? HandScore.ThreeOfAKind :
+            return HasFourOfAKind() ? HandScore.FourOfAKind : 
+                   HasStraight() ? HandScore.Straight :
+                   HasThreeOfAKind() ? HandScore.ThreeOfAKind :
                    HasTwoPair() ? HandScore.TwoPair :
                    HasPair() ? HandScore.Pair :
                    HandScore.HighCard;
@@ -55,7 +57,6 @@ namespace CsharpPoker.Tests
                 ));
             return dict.Count(item => item.Value == 2) == 2;
         }
-
         private bool HasThreeOfAKind()
         {
             var dict = new ConcurrentDictionary<CardValue, int>();
@@ -66,13 +67,31 @@ namespace CsharpPoker.Tests
             return dict.Count(item => item.Value == 3) == 1;
         }
 
+        private bool HasFourOfAKind()
+        {
+            var dict = new ConcurrentDictionary<CardValue, int>();
+            hand.Cards.ForEach(
+                card => dict.AddOrUpdate(card.Value, 1,
+                    (k, v) => v + 1
+                ));
+            return dict.Count(item => item.Value == 4) == 1;
+        }
+
+        private bool HasStraight() {
+
+            return hand.Cards.Take(hand.Cards.Count() -1)
+                .Select(
+                        (item, index) => item.Value + 1 == hand.Cards.ElementAt(index +1).Value
+                       )
+                    .All(result => result);
+        }
+
         private CardValue GetHighCard()
         {
             return hand.Cards
                 .OrderBy(card => card.Value)
                 .Last()
                 .Value;
-
         }
 
         public CardValue HighCardValue { get; private set; }
