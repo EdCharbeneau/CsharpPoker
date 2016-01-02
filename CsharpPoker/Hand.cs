@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CsharpPoker.Tests
+namespace CsharpPoker
 {
     public class Hand
     {

@@ -1,4 +1,4 @@
-﻿namespace CsharpPoker.Tests
+﻿namespace CsharpPoker
 {
     public enum CardValue
     {

@@ -64,17 +64,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card.cs" />
-    <Compile Include="CardSuit.cs" />
     <Compile Include="CardTests.cs" />
     <Compile Include="CardTests.ScorerTests.cs" />
-    <Compile Include="CardValue.cs" />
-    <Compile Include="Hand.cs" />
-    <Compile Include="HandScorer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsharpPoker\CsharpPoker.csproj">
+      <Project>{c5e5ef96-1cdd-4691-85c9-fe56c483ed1c}</Project>
+      <Name>CsharpPoker</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
