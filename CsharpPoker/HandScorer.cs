@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-
 namespace CsharpPoker
 {
     public class HandScorer
@@ -27,7 +26,7 @@ namespace CsharpPoker
         public HandScorer(Hand hand)
         {
             this.hand = hand;
-            this.pairs = hand.Cards.Map(cards => CreatePairs(cards));
+            this.pairs = hand.Cards.OrderedByValue().Map(cards => CreatePairs(cards));
             HighCardValue = GetHighCard();
             Score = GetHandScore();
         }
@@ -35,15 +34,16 @@ namespace CsharpPoker
         public CardValue HighCardValue { get; private set; }
         public HandScore Score { get; private set; }
 
-        private HandScore GetHandScore()
-        {
-            return HasFourOfAKind() ? HandScore.FourOfAKind : 
+        private HandScore GetHandScore() =>
+                   HasStraightFlush() ? HandScore.StraightFlush :
+                   HasFourOfAKind() ? HandScore.FourOfAKind :
+                   HasFullHouse() ? HandScore.FullHouse :
+                   HasFlush() ? HandScore.Flush : 
                    HasStraight() ? HandScore.Straight :
                    HasThreeOfAKind() ? HandScore.ThreeOfAKind :
                    HasTwoPair() ? HandScore.TwoPair :
                    HasPair() ? HandScore.Pair :
                    HandScore.HighCard;
-        }
 
         private bool HasOfAKind(int numberOfAKind) => 
                 this.pairs
@@ -54,35 +54,30 @@ namespace CsharpPoker
         private bool HasTwoPair() => pairs.Count(item => item.Value == 2) == 2;
         
         private bool HasThreeOfAKind() => HasOfAKind(3);
-
+        
         private bool HasFourOfAKind() => HasOfAKind(4);
 
-        private bool HasStraight() {
+        private bool HasStraight() => hand.Cards.OrderedByValue().AreAllSequential();
 
-            return hand.Cards.Take(hand.Cards.Count() -1)
-                .Select(
-                        (item, index) => item.Value + 1 == hand.Cards.ElementAt(index +1).Value
-                       )
-                    .All(result => result);
-        }
+        private bool HasFlush() => hand.Cards.Select(card => card.Suit).Distinct().Count() == 1;
 
-        private CardValue GetHighCard()
+        private bool HasFullHouse() => HasPair() && HasThreeOfAKind();
+
+        private bool HasStraightFlush() => HasStraight() && HasFlush();
+        
+        private CardValue GetHighCard() => hand.Cards.Max(card => card.Value);
+    
+        private ConcurrentDictionary<CardValue, int> CreatePairs(IEnumerable<Card> cards)
         {
-            return hand.Cards
-                .OrderBy(card => card.Value)
-                .Last()
-                .Value;
+            var pairs = new ConcurrentDictionary<CardValue, int>();
+            foreach (var card in cards)
+            {
+                pairs.AddOrUpdate(card.Value, 1,
+                    (cardValue, quantity) => quantity + 1
+                );
+            }
+            return pairs;
         }
 
-
-        private ConcurrentDictionary<CardValue, int> CreatePairs(List<Card> cards)
-        {
-            var dict = new ConcurrentDictionary<CardValue, int>();
-            cards.ForEach(
-                card => dict.AddOrUpdate(card.Value, 1,
-                    (k, v) => v + 1
-                ));
-            return dict;
-        }
     }
 }

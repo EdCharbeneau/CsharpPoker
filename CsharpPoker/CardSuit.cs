@@ -4,7 +4,7 @@
     {
         Spades,
         Diamonds,
-        Heards,
-        Clubs
+        Clubs,
+        Hearts
     }
 }

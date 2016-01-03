@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Card.cs" />
+    <Compile Include="CardHelperExtensions.cs" />
     <Compile Include="CardSuit.cs" />
     <Compile Include="CardValue.cs" />
     <Compile Include="FunctionalExtensions.cs" />
