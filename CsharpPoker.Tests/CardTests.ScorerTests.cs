@@ -31,7 +31,7 @@ namespace CsharpPoker.Tests
                 var scorer = new HandScorer(hand);
 
                 scorer.HighCardValue.Should().Be(CardValue.Ace);
-                scorer.Score.Should().Be(HandScorer.HandScore.HighCard);
+                scorer.Score.Name.Should().Be("High card");
             }
 
             [Fact]
@@ -51,7 +51,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.Pair);
+                scorer.Score.Name.Should().Be("Pair");
             }
 
             [Fact]
@@ -71,7 +71,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.TwoPair);
+                scorer.Score.Name.Should().Be("Two pair");
             }
 
             [Fact]
@@ -91,7 +91,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.ThreeOfAKind);
+                scorer.Score.Name.Should().Be("Three of a kind");
             }
 
             [Fact]
@@ -111,7 +111,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.Straight);
+                scorer.Score.Name.Should().Be("Straight");
             }
 
             [Fact]
@@ -131,7 +131,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.FourOfAKind);
+                scorer.Score.Name.Should().Be("Four of a kind");
             }
 
             [Fact]
@@ -151,7 +151,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.Flush);
+                scorer.Score.Name.Should().Be("Flush");
             }
 
             [Fact]
@@ -171,7 +171,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.FullHouse);
+                scorer.Score.Name.Should().Be("Full house");
             }
 
             [Fact]
@@ -191,7 +191,7 @@ namespace CsharpPoker.Tests
 
                 var scorer = new HandScorer(hand);
 
-                scorer.Score.Should().Be(HandScorer.HandScore.StraightFlush);
+                scorer.Score.Name.Should().Be("Straight flush");
             }
         }
     }
