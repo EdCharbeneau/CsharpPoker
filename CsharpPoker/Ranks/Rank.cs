@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace CsharpPoker
 {
-    public class Rule
+    public class Rank
     {
-        public Rule(string name, Func<bool> predicate, int strength)
+        public Rank(string name, Func<IEnumerable<Card>,bool> eval, int strength)
         {
             this.Name = name;
-            this.Predicate = predicate;
+            this.Eval = eval;
             this.Strength = strength;
         }
 
         public string Name { get; private set; }
 
-        public Func<bool> Predicate { get; private set; }
+        public Func<IEnumerable<Card>, bool> Eval { get; private set; }
 
         public int Strength { get; private set; }
 

@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardTests.cs" />
-    <Compile Include="CardTests.ScorerTests.cs" />
+    <Compile Include="CardTests.FiveCardPokerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

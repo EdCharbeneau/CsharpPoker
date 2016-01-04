@@ -9,7 +9,7 @@ namespace CsharpPoker
         {
             Cards = new List<Card>();
         }
-        public List<Card> Cards { get; set; }
+        public List<Card> Cards { get; private set; }
 
         public void Draw(Card card)
         {

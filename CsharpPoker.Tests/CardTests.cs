@@ -9,7 +9,7 @@ using FluentAssertions;
 
 namespace CsharpPoker.Tests
 {
-    public partial class CardTests
+    public class CardTests
     {
 
         [Fact]
@@ -28,7 +28,7 @@ namespace CsharpPoker.Tests
 
             card.ToString().Should().Be("Ace of Spades");
         }
-        
+
         [Fact]
         public void CanCreateHand()
         {
